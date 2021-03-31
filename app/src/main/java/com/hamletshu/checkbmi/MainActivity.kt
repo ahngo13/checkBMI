@@ -1,0 +1,46 @@
+package com.hamletshu.checkbmi
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //이 액티비티의 컨텐트 뷰로 세팅하겠다
+        setContentView(R.layout.activity_main)
+
+        val heightEditText: EditText = findViewById(R.id.heightEditText)
+        val weightEditText = findViewById<EditText>(R.id.weightEditText)
+
+        val resultButton = findViewById<Button>(R.id.resultButton)
+
+        resultButton.setOnClickListener {
+            Log.d("MainActivity", "ResultButton 이 클릭 되었습니다.")
+
+            if(heightEditText.text.isEmpty() || weightEditText.text.isEmpty()) {
+                Toast.makeText(this, "빈 값이 있습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            //이 아래로는 절대 빈 값이 올 수 없음.
+
+            val height: Int = heightEditText.text.toString().toInt()
+            val weight: Int = weightEditText.text.toString().toInt()
+            Log.d("MainActivity", "height : $height weight : $weight")
+
+            val intent = Intent(this, ResultActivity::class.java)
+
+            intent.putExtra("height", height)
+            intent.putExtra("weight", weight)
+
+            startActivity(intent)
+
+        }
+    }
+}
